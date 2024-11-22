@@ -180,6 +180,23 @@
       background-color: #d9b08c;
       color: white;
     }
+
+    .recipe-button.active,
+    .sub-recipe-button.active,
+    .btn-playing {
+      background-color: #4caf50;
+      color: white;
+    }
+
+    .btn-playing {
+      background-color: #d87c2c; /* สีที่ใช้เมื่อปุ่มกำลังเล่น */
+      color: white;
+    }
+
+    .btn-danger {
+      background-color: #f44336;
+      border-color: #f44336;
+    }
   </style>
 </head>
 
@@ -204,10 +221,12 @@
         <button class="recipe-button" onclick="toggleDetails('cake1')">
           กลุ่มเค้กสปันจ์
         </button>
+
         <div id="cake1" class="recipe-details">
           <button class="sub-recipe-button" onclick="toggleDetails('subcakespun1')">
             เค้กวนิลา
           </button>
+
           <div id="subcakespun1" class="sub-recipe-details">
             <p><strong>สูตรขนมเค้กวนิลา</strong></p>
             <p><strong>ส่วนผสม </strong><br>1. ไข่ไก่ เบอร์ 2 จำนวน 5 ฟอง <br>2. น้ำตาลทราย 125 กรัม<br>3. เกลือ 1/4
@@ -219,6 +238,10 @@
             <p>
               <strong>ประเภท:</strong> ไฟบน และ ไฟล่าง
             </p>
+            <audio id="audio-subcakespun1" src="audio/vanilla-cake.mp3"></audio>
+            <button class="btn btn-primary" onclick="playAudio('audio-subcakespun1')">เล่นเสียง</button>
+            <button class="btn btn-secondary" onclick="repeatAudio('audio-subcakespun1')">เล่นซ้ำ</button>
+            <button class="btn btn-danger" onclick="stopAudio('audio-subcakespun1')">หยุด</button>
           </div>
           <button class="sub-recipe-button" onclick="toggleDetails('subcakespun2')">
             เค้กช็อกโกแลต
@@ -227,13 +250,18 @@
             <p><strong>สูตรขนมเค้กช็อกโกแลต</strong></p>
             <p><strong>ส่วนผสม </strong><br>1. ไข่ไก่ เบอร์ 2 จำนวน 4 ฟอง <br>2. น้ำตาลทราย 100 กรัม<br>3. เกลือ 1/4
               ช้อนชา<br>4. น้ำเปล่า 50 กรัม<br>5. กลิ่นวนิลา 1 ช้อนชา<br>6. แป้งเค้ก 100 กรัม<br>7. ผงโกโก้ 15 กรัม
-              <br>8. ผงฟู 1 ช้อนชา<br>9. SP 15 กรัม<br>10. น้ำมันรำข้าว 75 กรัม</p>
+              <br>8. ผงฟู 1 ช้อนชา<br>9. SP 15 กรัม<br>10. น้ำมันรำข้าว 75 กรัม
+            </p>
             <p>
               <strong>วิธีอบ:</strong> อุณหภูมิ 175 องศา
             </p>
             <p>
               <strong>ประเภท:</strong> ไฟบน และ ไฟล่าง
             </p>
+            <audio id="audio-subcakespun2" src="audio/chocolate-cake.mp3"></audio>
+            <button class="btn btn-primary" onclick="playAudio('audio-subcakespun2')">เล่นเสียง</button>
+            <button class="btn btn-secondary" onclick="repeatAudio('audio-subcakespun2')">เล่นซ้ำ</button>
+            <button class="btn btn-danger" onclick="stopAudio('audio-subcakespun2')">หยุด</button>
           </div>
           <button class="sub-recipe-button" onclick="toggleDetails('subcakespun3')">
             เค้กชาไทย
@@ -249,6 +277,10 @@
             <p>
               <strong>ประเภท:</strong> ไฟบน และ ไฟล่าง
             </p>
+            <audio id="audio-subcakespun3" src="audio/thaitea-cake.mp3"></audio>
+            <button class="btn btn-primary" onclick="playAudio('audio-subcakespun3')">เล่นเสียง</button>
+            <button class="btn btn-secondary" onclick="repeatAudio('audio-subcakespun3')">เล่นซ้ำ</button>
+            <button class="btn btn-danger" onclick="stopAudio('audio-subcakespun3')">หยุด</button>
           </div>
         </div>
         <button class="recipe-button" onclick="toggleDetails('cake2')">
@@ -271,6 +303,10 @@
             <p>
               <strong>ประเภท:</strong> ไฟบน และ ไฟล่าง และ พัดลม
             </p>
+            <audio id="audio-subcakeegg1" src="audio/taiwan-cake.mp3"></audio>
+            <button class="btn btn-primary" onclick="playAudio('audio-subcakeegg1')">เล่นเสียง</button>
+            <button class="btn btn-secondary" onclick="repeatAudio('audio-subcakeegg1')">เล่นซ้ำ</button>
+            <button class="btn btn-danger" onclick="stopAudio('audio-subcakeegg1')">หยุด</button>
           </div>
           <button class="sub-recipe-button" onclick="toggleDetails('subcakeegg2')">
             เค้กญี่ปุ่น
@@ -285,6 +321,10 @@
             <p>
               <strong>ประเภท:</strong> ไม่รู้
             </p>
+            <audio id="audio-subcakeegg2" src="audio/japanese-cake.mp3"></audio>
+            <button class="btn btn-primary" onclick="playAudio('audio-subcakeegg2')">เล่นเสียง</button>
+            <button class="btn btn-secondary" onclick="repeatAudio('audio-subcakeegg2')">เล่นซ้ำ</button>
+            <button class="btn btn-danger" onclick="stopAudio('audio-subcakeegg2')">หยุด</button>
           </div>
         </div>
         <button class="recipe-button" onclick="toggleDetails('cake3')">
@@ -306,33 +346,75 @@
             <p>
               <strong>ประเภท:</strong> ไฟบน และ ไฟล่าง และ พัดลม
             </p>
+            <audio id="audio-subcakechipphon1" src="audio/softbanana-cake.mp3"></audio>
+            <button class="btn btn-primary" onclick="playAudio('audio-subcakechipphon1')">เล่นเสียง</button>
+            <button class="btn btn-secondary" onclick="repeatAudio('audio-subcakechipphon1')">เล่นซ้ำ</button>
+            <button class="btn btn-danger" onclick="stopAudio('audio-subcakechipphon1')">หยุด</button>
           </div>
         </div>
 
         <!-- สิ้นสุดการเพิ่มเมนูตรงนี้ -->
 
-        <!-- ขนมประเภทคุกกี้เมนูตรงนี้ -->
+
 
         <!-- สิ้นสุดการเพิ่มเมนูตรงนี้ -->
       </div>
     </div>
 
     <script>
-      function toggleDetails(id) {
-        const details = document.getElementById(id);
-        const button = document.querySelector(
-          `[onclick="toggleDetails('${id}')"]`
-        );
-        const isVisible = details.style.display === "block";
+      // ฟังก์ชันเปิด/ปิดรายละเอียดสูตร
+    function toggleDetails(id) {
+      const details = document.getElementById(id);
+      const button = document.querySelector(`[onclick="toggleDetails('${id}')"]`);
+      const isVisible = details.style.display === "block";
 
-        details.style.display = isVisible ? "none" : "block";
+      details.style.display = isVisible ? "none" : "block";
 
-        if (isVisible) {
-          button.classList.remove("active"); // ลบคลาสเมื่อปิด
-        } else {
-          button.classList.add("active"); // เพิ่มคลาสเมื่อเปิด
-        }
+      if (isVisible) {
+        button.classList.remove("active");
+      } else {
+        button.classList.add("active");
       }
+    }
+
+    // ฟังก์ชันเล่นเสียง
+    function playAudio(audioId, buttonId) {
+      const audio = document.getElementById(audioId);
+      const button = document.getElementById(buttonId);
+      
+      audio.currentTime = 0; // เริ่มเล่นตั้งแต่ต้น
+      audio.play();
+
+      // เปลี่ยนสีปุ่มเมื่อกำลังเล่น
+      button.classList.add("btn-playing");
+      button.innerHTML = 'กำลังเล่น...';
+    }
+
+    // ฟังก์ชันเล่นเสียงซ้ำ
+    function repeatAudio(audioId, buttonId) {
+      const audio = document.getElementById(audioId);
+      const button = document.getElementById(buttonId);
+      
+      audio.loop = true; // ตั้งค่าให้เล่นซ้ำ
+      audio.play();
+
+      // เปลี่ยนสีปุ่มเมื่อกำลังเล่นซ้ำ
+      button.classList.add("btn-playing");
+      button.innerHTML = 'เล่นซ้ำ...';
+    }
+
+    // ฟังก์ชันหยุดเสียง
+    function stopAudio(audioId, buttonId) {
+      const audio = document.getElementById(audioId);
+      const button = document.getElementById(buttonId);
+      
+      audio.pause(); // หยุดเล่น
+      audio.currentTime = 0; // รีเซ็ตไปจุดเริ่มต้น
+
+      // รีเซ็ตสถานะของปุ่ม
+      button.classList.remove("btn-playing");
+      button.innerHTML = 'เล่น';
+    }
 
       function searchRecipes() {
         const input = document
@@ -358,6 +440,9 @@
           button.style.display = "inline-block";
         });
       }
+
+
+
     </script>
     <!-- เพิ่ม Bootstrap JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
