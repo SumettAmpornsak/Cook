@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Sumett Ampornsak" />
+  <title>คลังสูตรขนม</title>
+  <!-- เพิ่มฟอนต์ Kanit -->
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <!-- เพิ่ม Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <link rel="icon" href="https://i.ibb.co/p4BmDdw/take-away-7334069.png" type="image/x-icon" />
+  <style>
+    body {
+      font-family: "Kanit", sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f3ebe1;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        font-size: 1.5rem;
+        padding: 15px;
+      }
+
+      .container {
+        padding: 10px;
+      }
+
+      .recipe-button,
+      .sub-recipe-button {
+        font-size: 0.9rem;
+        padding: 10px 15px;
+        margin: 5px 0;
+      }
+
+      .recipe-details,
+      .sub-recipe-details {
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+
+      .recipe-button,
+      .sub-recipe-button {
+        font-size: 0.8rem;
+        padding: 8px 12px;
+      }
+
+      .recipe-details,
+      .sub-recipe-details {
+        font-size: 0.7rem;
+      }
+
+      .input-group input {
+        font-size: 0.9rem;
+      }
+
+      .input-group button {
+        font-size: 0.8rem;
+      }
+    }
+
+    header {
+      background-color: #a17c6b;
+      padding: 20px;
+      text-align: center;
+      color: white;
+      font-size: 2rem;
+    }
+
+    header img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fffdf6;
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .category-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #5e4b3a;
+      margin-bottom: 15px;
+    }
+
+    .recipe-button {
+      padding: 12px 20px;
+      background-color: #d87c2c;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      margin: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .sub-recipe-button {
+      padding: 12px 20px;
+      background-color: #c7a587;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      margin: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+    }
+
+    .recipe-button:hover,
+    .sub-recipe-button:hover {
+      background-color: #4a2612;
+      transform: translateY(-2px);
+    }
+
+    .recipe-details,
+    .sub-recipe-details {
+      display: none;
+      margin-top: 15px;
+      padding: 15px;
+      border: 1px solid #d9b08c;
+      border-radius: 10px;
+      background-color: #faf3e9;
+    }
+
+    .recipe-button.active,
+    .sub-recipe-button.active {
+      background-color: #4caf50;
+      /* สีเขียวแสดงสถานะเปิด */
+      color: white;
+      position: relative;
+      padding-right: 50px;
+      /* เพิ่มระยะด้านขวาสำหรับไอคอน */
+    }
+
+    .recipe-button.active::after,
+    .sub-recipe-button.active::after {
+      content: " ✔";
+      /* ไอคอนแสดงสถานะ */
+      font-size: 1.2rem;
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      /* วางไอคอนทางขวา */
+      transform: translateY(-50%);
+      color: white;
+      background-color: #3e8e41;
+      /* พื้นหลังเล็กน้อย */
+      border-radius: 50%;
+      /* ไอคอนเป็นวงกลม */
+      width: 25px;
+      height: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      /* เพิ่มมิติให้ไอคอน */
+    }
+
+    .input-group .btn-outline-secondary {
+      border-color: #d9b08c;
+      color: #d9b08c;
+    }
+
+    .input-group .btn-outline-secondary:hover {
+      background-color: #d9b08c;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <img src="https://i.ibb.co/p4BmDdw/take-away-7334069.png" alt="" srcset="" />
+    คลังสูตรขนม
+  </header>
+  <div class="container">
+    <div class="input-group mb-4">
+      <input type="text" id="searchInput" class="form-control form-control-lg" placeholder="ค้นหาชื่อสูตรขนม..."
+        onkeyup="searchRecipes()" />
+      <button class="btn btn-outline-secondary btn-lg" type="button" onclick="clearSearch()">
+        ล้าง
+      </button>
+    </div>
+    <div id="recipeList">
+
+      <!-- ขนมประเภทเค้กเมนูตรงนี้ -->
+      <div class="recipe-category">
+        <div class="category-title">ขนมประเภทเค้ก</div>
+        <button class="recipe-button" onclick="toggleDetails('cake1')">
+          กลุ่มเค้กสปันจ์
+        </button>
+        <div id="cake1" class="recipe-details">
+          <button class="sub-recipe-button" onclick="toggleDetails('subcakespun1')">
+            เค้กวนิลา
+          </button>
+          <div id="subcakespun1" class="sub-recipe-details">
+            <p><strong>สูตรขนมเค้กวนิลา</strong></p>
+            <p><strong>ส่วนผสม </strong><br>1. ไข่ไก่ เบอร์ 2 จำนวน 5 ฟอง <br>2. น้ำตาลทราย 125 กรัม<br>3. เกลือ 1/4
+              ช้อนชา<br>4. น้ำเปล่า 63 กรัม<br>5. กลิ่นวนิลา 2 ช้อนชา<br>6. แป้งเค้ก 125 กรัม<br>7. ผงฟู 1+1/4
+              ช้อนชา<br>8. SP 19 กรัม<br>9. น้ำมันรำข้าว 95 กรัม</p>
+            <p>
+              <strong>วิธีอบ:</strong> อุณหภูมิ 175 องศา
+            </p>
+            <p>
+              <strong>ประเภท:</strong> ไฟบน และ ไฟล่าง
+            </p>
+          </div>
+          <button class="sub-recipe-button" onclick="toggleDetails('subcakespun2')">
+            เค้กช็อกโกแลต
+          </button>
+          <div id="subcakespun2" class="sub-recipe-details">
+            <p><strong>สูตรขนมเค้กช็อกโกแลต</strong></p>
+            <p><strong>ส่วนผสม </strong><br>1. ไข่ไก่ เบอร์ 2 จำนวน 4 ฟอง <br>2. น้ำตาลทราย 100 กรัม<br>3. เกลือ 1/4
+              ช้อนชา<br>4. น้ำเปล่า 50 กรัม<br>5. กลิ่นวนิลา 1 ช้อนชา<br>6. แป้งเค้ก 100 กรัม<br>7. ผงโกโก้ 15 กรัม
+              <br>8. ผงฟู 1 ช้อนชา<br>9. SP 15 กรัม<br>10. น้ำมันรำข้าว 75 กรัม</p>
+            <p>
+              <strong>วิธีอบ:</strong> อุณหภูมิ 175 องศา
+            </p>
+            <p>
+              <strong>ประเภท:</strong> ไฟบน และ ไฟล่าง
+            </p>
+          </div>
+          <button class="sub-recipe-button" onclick="toggleDetails('subcakespun3')">
+            เค้กชาไทย
+          </button>
+          <div id="subcakespun3" class="sub-recipe-details">
+            <p><strong>สูตรขนมเค้กชาไทย</strong></p>
+            <p><strong>ส่วนผสม </strong><br>1. ไข่ไก่ เบอร์ 2 จำนวน 4 ฟอง <br>2. น้ำตาลทราย 100 กรัม<br>3. เกลือ 1/4
+              ช้อนชา<br>4. น้ำชาไทย 50 กรัม<br>5. แป้งเค้ก 100 กรัม<br>6. ผงฟู 1 ช้อนชา<br>7. SP 15 กรัม<br>8.
+              น้ำมันรำข้าว 75 กรัม</p>
+            <p>
+              <strong>วิธีอบ:</strong> อุณหภูมิ 175 องศา
+            </p>
+            <p>
+              <strong>ประเภท:</strong> ไฟบน และ ไฟล่าง
+            </p>
+          </div>
+        </div>
+        <button class="recipe-button" onclick="toggleDetails('cake2')">
+          กลุ่มเค้กไข่
+        </button>
+        <div id="cake2" class="recipe-details">
+          <button class="sub-recipe-button" onclick="toggleDetails('subcakeegg1')">
+            เค้กใต้หวัน
+          </button>
+          <div id="subcakeegg1" class="sub-recipe-details">
+            <p><strong>สูตรขนมเค้กใต้หวัน</strong></p>
+            <p><strong>ส่วนผสม </strong><br>1. น้ำมันรำข้าว 85 กรัม <br>2. นมสด 100 กรัม<br>
+              <hr>1. แป้งเค้ก 80 กรัม<br>2. เกลือ 1/4 ช้อนชา <br>3. ไข่แดงเบอร์ 2 จำนวน 6 ฟอง<br>4. กลิ่นวนิลา 1
+              ช้อนชา<br>
+              <hr>1. ไข่ขาว 6 ฟอง<br>2. ครีมอ็อฟทาทา 1/2 ช้อนชา<br>3. น้ำตาลทราย 80 กรัม<br>
+            </p>
+            <p>
+              <strong>วิธีอบ:</strong> อบรองน้ำ อุณหภูมิ 150 องศา
+            </p>
+            <p>
+              <strong>ประเภท:</strong> ไฟบน และ ไฟล่าง และ พัดลม
+            </p>
+          </div>
+          <button class="sub-recipe-button" onclick="toggleDetails('subcakeegg2')">
+            เค้กญี่ปุ่น
+          </button>
+          <div id="subcakeegg2" class="sub-recipe-details">
+            <p><strong>สูตรขนมเค้กญี่ปุ่น</strong></p>
+            <p><strong>ส่วนผสม </strong><br>1. น้ำมันรำข้าว 50 กรัม <br>2. แป้งเค้ก 80 กรัม<br>3. เกลือ 1/8 ช้อนชา<br>4.
+              นมสด 80 กรัม ช้อนชา<br>5. ไข่แดง จำนวน 6 ฟอง<br>6. กลิ่นวนิลา 1 ช้อนชา<br>7. ไข่ขาว จำนวน 5 ฟอง<br>8.
+              ครีมอ็อฟทาทา 1/2 ช้อนชา<br>9. น้ำตาลไอซ์ซิ่ง 125 กรัม </p>
+            <strong>วิธีอบ:</strong> ไม่รู้
+            </p>
+            <p>
+              <strong>ประเภท:</strong> ไม่รู้
+            </p>
+          </div>
+        </div>
+        <button class="recipe-button" onclick="toggleDetails('cake3')">
+          กลุ่มเค้กชิฟฟ่อน
+        </button>
+        <div id="cake3" class="recipe-details">
+          <button class="sub-recipe-button" onclick="toggleDetails('subcakechipphon1')"> เค้กกล้วยหอมนุ่ม
+          </button>
+          <div id="subcakechipphon1" class="sub-recipe-details">
+            <p><strong>สูตรขนมเค้กกล้วยหอมนุ่ม</strong></p>
+            <p><strong>ส่วนผสม </strong><br>1. กล้วยหอม 200 กรัม <br>2. น้ำมะนาว 1 ช้อนชา<br>
+              <hr>1. แป้งเค้ก 200 กรัม<br>2. ผงฟู 1+1/2 ช้อนชา<br>3. เบคกิ้งโซดา 1 ช้อนชา<br>
+              <hr>1. ไข่ไก่ 3 ฟอง<br>2. น้ำตาลทราย 180 กรัม<br>
+              <hr>1. เกลือ 1/2 ช้อนชา<br>2. น้ำมันรำข้าว 1 ถ้วยตวงหรือ 170 กรัม
+            </p>
+            <p>
+              <strong>วิธีอบ:</strong> อบรองน้ำ อุณหภูมิ 150 องศา
+            </p>
+            <p>
+              <strong>ประเภท:</strong> ไฟบน และ ไฟล่าง และ พัดลม
+            </p>
+          </div>
+        </div>
+
+        <!-- สิ้นสุดการเพิ่มเมนูตรงนี้ -->
+
+        <!-- ขนมประเภทคุกกี้เมนูตรงนี้ -->
+
+        <!-- สิ้นสุดการเพิ่มเมนูตรงนี้ -->
+      </div>
+    </div>
+
+    <script>
+      function toggleDetails(id) {
+        const details = document.getElementById(id);
+        const button = document.querySelector(
+          `[onclick="toggleDetails('${id}')"]`
+        );
+        const isVisible = details.style.display === "block";
+
+        details.style.display = isVisible ? "none" : "block";
+
+        if (isVisible) {
+          button.classList.remove("active"); // ลบคลาสเมื่อปิด
+        } else {
+          button.classList.add("active"); // เพิ่มคลาสเมื่อเปิด
+        }
+      }
+
+      function searchRecipes() {
+        const input = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const recipeButtons = document.querySelectorAll(".recipe-button");
+
+        recipeButtons.forEach((button) => {
+          const text = button.textContent.toLowerCase();
+          if (text.includes(input)) {
+            button.style.display = "inline-block";
+          } else {
+            button.style.display = "none";
+          }
+        });
+      }
+
+      function clearSearch() {
+        const searchInput = document.getElementById("searchInput");
+        searchInput.value = "";
+        const recipeButtons = document.querySelectorAll(".recipe-button");
+        recipeButtons.forEach((button) => {
+          button.style.display = "inline-block";
+        });
+      }
+    </script>
+    <!-- เพิ่ม Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
